@@ -4,8 +4,9 @@ using System.Net;
 using System.Xml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Formatting = Newtonsoft.Json.Formatting;
 
-namespace Keepa.Api.Backend.Helper
+namespace keepaAPI.Helper
 {
     /// <summary>
     /// Static helper methods and reused objects.
@@ -19,7 +20,7 @@ namespace Keepa.Api.Backend.Helper
                 NamingStrategy = new CamelCaseNamingStrategy(),
                 IgnoreSerializableInterface = true
             },
-            Formatting = Formatting.None
+            Formatting = Newtonsoft.Json.Formatting.None
         };
 
         public static readonly JsonSerializerSettings JsonSerializerPrettySettings = new JsonSerializerSettings

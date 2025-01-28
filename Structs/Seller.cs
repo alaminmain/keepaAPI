@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Keepa.Api.Backend.Helper;
 
-namespace Keepa.Api.Backend.Structs
+
+namespace keepaAPI.Structs
 {
     /// <summary>
     /// The Seller class provides information about an Amazon marketplace seller.
@@ -224,4 +224,44 @@ namespace Keepa.Api.Backend.Structs
 
             /// <summary>
             /// The number of products this merchant sells with this category.
+            /// </summary>
+            public int ProductCount { get; set; }
 
+            /// <summary>
+            /// The 30-day average sales rank of these products.
+            /// </summary>
+            public int Avg30SalesRank { get; set; }
+
+            /// <summary>
+            /// The number of products that have an Amazon offer.
+            /// </summary>
+            public int ProductCountWithAmazonOffer { get; set; }
+        }
+
+        /// <summary>
+        /// Represents a customer feedback entry.
+        /// </summary>
+        public class FeedbackObject
+        {
+            /// <summary>
+            /// The feedback star rating (range: 10-50, where 10 = 1 star and 50 = 5 stars).
+            /// </summary>
+            public int Rating { get; set; }
+
+            /// <summary>
+            /// Timestamp of the feedback, in Keepa Time minutes.
+            /// </summary>
+            public int Date { get; set; }
+
+            /// <summary>
+            /// The feedback text.
+            /// </summary>
+            public string Feedback { get; set; }
+
+            /// <summary>
+            /// Whether or not the feedback is striked.
+            /// </summary>
+            public bool IsStriked { get; set; }
+        }
+    }
+}

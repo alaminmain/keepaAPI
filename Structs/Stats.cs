@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Keepa.Api.Backend.Structs
+namespace keepaAPI.Structs
 {
     /// <summary>
     /// Contains statistic values. 

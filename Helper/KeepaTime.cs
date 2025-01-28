@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Keepa.Api.Backend.Helper
+namespace keepaAPI.Helper
 {
     /// <summary>
     /// Keepa Time - Unix Time Converter Helper Class

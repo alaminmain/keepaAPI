@@ -1,4 +1,4 @@
-﻿namespace Keepa.Api.Backend.Structs
+﻿namespace keepaAPI.Structs
 {
     /// <summary>
     /// Amazon Locale Domain Enum

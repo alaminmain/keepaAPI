@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Keepa.Api.Backend.Structs
+namespace keepaAPI.Structs
 {
     /// <summary>
     /// Represents a marketplace offer.

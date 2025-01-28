@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using keepaAPI.Stucts;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Keepa.Api.Backend.Structs
+namespace keepaAPI.Structs
 {
     /// <summary>
     /// Represents a general API request with parameters.

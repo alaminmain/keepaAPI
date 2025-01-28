@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Keepa.Api.Backend.Helper
+namespace keepaAPI.Helper
 {
     /// <summary>
     /// HelperFactory to name ThreadPool-Threads for debugging purposes.

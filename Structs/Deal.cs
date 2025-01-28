@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Keepa.Api.Backend.Structs
+namespace keepaAPI.Structs
 {
     /// <summary>
     /// Represents a product that has recently changed (usually in price or sales rank).

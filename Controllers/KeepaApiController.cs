@@ -1,123 +1,112 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using System.IO.Compression;
-using System.Net;
+﻿using System.IO.Compression;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Polly;
+using Polly.Extensions.Http;
+using Polly.Retry;
 
-namespace KeepaApiBackend.Controllers
+namespace KeepaApi.Controllers
 {
     [ApiController]
-    [Route("api/keepa")]
+    [Route("api/[controller]")]
     public class KeepaApiController : ControllerBase
     {
-        private readonly string _accessKey;
-        private readonly string _userAgent = "KEEPA-CSharp-API";
-        private const int MaxDelay = 60000;
+        private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
+        private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy;
 
-        public KeepaApiController()
+        public KeepaApiController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
-            _accessKey = "your_api_key"; // Replace with your actual Keepa API Key
+            _httpClient = httpClientFactory.CreateClient();
+            _configuration = configuration;
+
+            // Define Polly Retry Policy (3 retries with exponential backoff)
+            _retryPolicy = HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
         }
 
-        public enum ResponseStatus
-        {
-            PENDING, OK, FAIL, NOT_ENOUGH_TOKEN, REQUEST_REJECTED, PAYMENT_REQUIRED, METHOD_NOT_ALLOWED, INTERNAL_SERVER_ERROR
-        }
-
-        [HttpPost("sendRequest")]
+        [HttpPost("send-request")]
         public async Task<IActionResult> SendRequest([FromBody] KeepaRequest request)
         {
-            if (request == null) return BadRequest("Invalid request payload.");
+            if (request == null || string.IsNullOrWhiteSpace(request.Path))
+                return BadRequest("Invalid request payload.");
 
-            var response = await ProcessRequest(request);
-            return response.Status == ResponseStatus.OK ? Ok(response) : StatusCode((int)HttpStatusCode.BadRequest, response);
-        }
+            string apiKey = _configuration["KeepaApiKey"]; // Load API Key from config
+            if (string.IsNullOrEmpty(apiKey))
+                return StatusCode(500, "API key is missing.");
 
-        private async Task<KeepaResponse> ProcessRequest(KeepaRequest request, int connectTimeout = 30000, int readTimeout = 120000)
-        {
-            var response = new KeepaResponse();
-            var query = request.Parameter != null
-                ? string.Join("&", request.Parameter.Select(p => $"{WebUtility.UrlEncode(p.Key)}={WebUtility.UrlEncode(p.Value)}"))
-                : "";
-
-            string url = $"https://api.keepa.com/{request.Path}?key={_accessKey}&{query}";
+            string queryParams = string.Join("&", request.Parameters.Select(p => $"{Uri.EscapeDataString(p.Key)}={Uri.EscapeDataString(p.Value)}"));
+            string url = $"https://api.keepa.com/{request.Path}?key={apiKey}&{queryParams}";
 
             try
             {
-                var webRequest = (HttpWebRequest)WebRequest.Create(url);
-                webRequest.UserAgent = _userAgent;
-                webRequest.Timeout = connectTimeout;
-                webRequest.Headers.Add("Accept-Encoding", "gzip");
-
-                if (!string.IsNullOrEmpty(request.PostData))
+                HttpRequestMessage httpRequest = new HttpRequestMessage
                 {
-                    webRequest.Method = "POST";
-                    webRequest.ContentType = "application/json; charset=UTF-8";
-                    using var streamWriter = new StreamWriter(webRequest.GetRequestStream());
-                    await streamWriter.WriteAsync(request.PostData);
-                }
-                else
+                    Method = request.PostData != null ? HttpMethod.Post : HttpMethod.Get,
+                    RequestUri = new Uri(url),
+                    Headers =
+                    {
+                        { "User-Agent", "Keepa-DotNet-Client" },
+                        { "Accept-Encoding", "gzip" }
+                    }
+                };
+
+                if (request.PostData != null)
                 {
-                    webRequest.Method = "GET";
+                    httpRequest.Content = new StringContent(JsonSerializer.Serialize(request.PostData), Encoding.UTF8, "application/json");
                 }
 
-                using var webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
-                response = await ProcessResponse(webResponse);
-            }
-            catch (WebException ex)
-            {
-                if (ex.Response is HttpWebResponse httpResponse)
-                {
-                    response = await ProcessResponse(httpResponse);
-                }
-                else
-                {
-                    response.Status = ResponseStatus.FAIL;
-                    response.ErrorMessage = ex.Message;
-                }
-            }
+                HttpResponseMessage response = await _retryPolicy.ExecuteAsync(() => _httpClient.SendAsync(httpRequest));
 
-            return response;
-        }
+                if (!response.IsSuccessStatusCode)
+                {
+                    return StatusCode((int)response.StatusCode, $"Error: {response.ReasonPhrase}");
+                }
 
-        private async Task<KeepaResponse> ProcessResponse(HttpWebResponse webResponse)
-        {
-            var response = new KeepaResponse();
-            try
-            {
-                using var responseStream = webResponse.GetResponseStream();
-                using var decompressionStream = new GZipStream(responseStream, CompressionMode.Decompress);
-                using var streamReader = new StreamReader(decompressionStream);
-                var jsonResponse = await streamReader.ReadToEndAsync();
-                response = JsonSerializer.Deserialize<KeepaResponse>(jsonResponse);
-                response.Status = ResponseStatus.OK;
+                var responseData = await DecompressResponse(response);
+                var keepaResponse = JsonSerializer.Deserialize<KeepaResponse>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                return Ok(keepaResponse);
             }
             catch (Exception ex)
             {
-                response.Status = ResponseStatus.FAIL;
-                response.ErrorMessage = ex.Message;
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-            return response;
+        }
+
+        private async Task<string> DecompressResponse(HttpResponseMessage response)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            using var decompressionStream = new GZipStream(responseStream, CompressionMode.Decompress);
+            using var reader = new StreamReader(decompressionStream, Encoding.UTF8);
+            return await reader.ReadToEndAsync();
         }
     }
 
     public class KeepaRequest
     {
-        public string Path { get; set; }
-        public Dictionary<string, string> Parameter { get; set; }
-        public string PostData { get; set; }
+        public string Path { get; set; } = "";
+        public Dictionary<string, string> Parameters { get; set; } = new();
+        public object? PostData { get; set; }
     }
 
     public class KeepaResponse
     {
-        [JsonPropertyName("status")]
-        public KeepaApiController.ResponseStatus Status { get; set; } = KeepaApiController.ResponseStatus.PENDING;
-
-        [JsonPropertyName("error")]
-        public string ErrorMessage { get; set; }
+        public long Timestamp { get; set; }
+        public int TokensLeft { get; set; }
+        public int RefillIn { get; set; }
+        public int RefillRate { get; set; }
+        public long RequestTime { get; set; }
+        public int ProcessingTimeInMs { get; set; }
+        public double TokenFlowReduction { get; set; }
+        public int TokensConsumed { get; set; }
+        public string Status { get; set; } = "PENDING";
+        public object? Products { get; set; }
+        public object? Categories { get; set; }
+        public object? Error { get; set; }
+        public object? Additional { get; set; }
     }
 }

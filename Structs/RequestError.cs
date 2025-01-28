@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Keepa.Api.Backend.Structs
+namespace keepaAPI.Structs
 {
     /// <summary>
     /// Contains information about an API error.

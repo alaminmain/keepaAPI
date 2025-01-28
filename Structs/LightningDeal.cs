@@ -1,7 +1,6 @@
-﻿using keepaAPI.Stucts;
-using System;
+﻿using System;
 
-namespace Keepa.Api.Backend.Structs
+namespace keepaAPI.Structs
 {
     /// <summary>
     /// Represents a Lightning Deal on Amazon.
@@ -111,7 +110,7 @@ namespace Keepa.Api.Backend.Structs
         /// <summary>
         /// The dimension attributes of this deal.
         /// </summary>
-        public Product.VariationAttributeObject[] Variation { get; set; }
+        public VariationAttributeObject[] Variation { get; set; }
 
         /// <summary>
         /// Represents the possible states of a Lightning Deal.

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using keepaAPI.Helper.Enum;
 using Newtonsoft.Json;
-using Keepa.Api.Backend; // Assuming KeepaAPI is under this namespace
 
-namespace Keepa.Api.Backend.Structs
+namespace keepaAPI.Structs
 {
     /// <summary>
     /// Common Keepa API Response
@@ -57,7 +57,7 @@ namespace Keepa.Api.Backend.Structs
         /// <summary>
         /// Status of the request.
         /// </summary>
-        public KeepaAPI.ResponseStatus Status { get; set; } = KeepaAPI.ResponseStatus.Pending;
+        public ResponseStatus Status { get; set; } = ResponseStatus.PENDING;
 
         /// <summary>
         /// Results of the product request.
@@ -140,7 +140,7 @@ namespace Keepa.Api.Backend.Structs
         /// </summary>
         public override string ToString()
         {
-            return Status == KeepaAPI.ResponseStatus.Ok
+            return Status == ResponseStatus.OK
                 ? JsonConvert.SerializeObject(this, Formatting.None)
                 : JsonConvert.SerializeObject(this, Formatting.Indented);
         }

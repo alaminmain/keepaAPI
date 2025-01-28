@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Keepa.Api.Backend.Structs
+namespace keepaAPI.Structs
 {
     /// <summary>
     /// A best sellers ASIN list of a specific category.

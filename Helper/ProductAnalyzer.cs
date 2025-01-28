@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Keepa.Api.Backend.Helper
+namespace keepaAPI.Helper
 {
     /// <summary>
     /// Provides methods to work on the Keepa price history CSV format.
@@ -57,7 +57,7 @@ namespace Keepa.Api.Backend.Helper
                     }
                     else
                     {
-                        bool isValid = (i == j - adjustedIndex) || (csv[i + adjustedIndex] >= end || csv[i + adjustedIndex] >= start);
+                        bool isValid = i == j - adjustedIndex || csv[i + adjustedIndex] >= end || csv[i + adjustedIndex] >= start;
                         if (isValid)
                         {
                             if (c < extremeValue[1])
@@ -123,7 +123,7 @@ namespace Keepa.Api.Backend.Helper
         /// </summary>
         public static int GetLastTime(int[] csv, CsvType type)
         {
-            return csv == null || csv.Length == 0 ? -1 : csv[^((type.IsWithShipping ? 3 : 2))];
+            return csv == null || csv.Length == 0 ? -1 : csv[^(type.IsWithShipping ? 3 : 2)];
         }
 
         /// <summary>
@@ -180,13 +180,13 @@ namespace Keepa.Api.Backend.Helper
 
                 if (c != -1)
                 {
-                    int nextDate = (i + loopIncrement >= csv.Length) ? now : csv[i + loopIncrement];
+                    int nextDate = i + loopIncrement >= csv.Length ? now : csv[i + loopIncrement];
                     if (nextDate > end) nextDate = end;
                     count += nextDate - date;
                 }
             }
 
-            return (int)(count > 0 ? 100 - Math.Floor((count * 100) / (double)(end - start)) : 100);
+            return (int)(count > 0 ? 100 - Math.Floor(count * 100 / (double)(end - start)) : 100);
         }
     }
 
