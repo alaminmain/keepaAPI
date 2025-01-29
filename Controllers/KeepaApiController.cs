@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using keepaAPI.Structs;
 using Microsoft.AspNetCore.Mvc;
 using Polly;
 using Polly.Extensions.Http;
@@ -77,6 +78,37 @@ namespace KeepaApi.Controllers
             }
         }
 
+
+      
+
+
+        [HttpGet("products")]
+        public async Task<IActionResult> GetProducts([FromQuery] string codes)
+        {
+            var codeList = codes.Split(',');
+            var tasks = new List<Task<HttpResponseMessage>>();
+
+            foreach (var code in codeList)
+            {
+                var url = $"https://api.keepa.com/product?key=k2hvuj5pni54jdq9t1qcchq9hq67gfv944qfu6mo17ltel0egs2siub39nhga0ot&domain=1&code={code}&history=0&days=1&offers=20";
+                tasks.Add(_httpClient.GetAsync(url));
+            }
+
+            var responses = await Task.WhenAll(tasks);
+            var productResponses = new List<ProductResponse>();
+
+            foreach (var response in responses)
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var productResponse = JsonSerializer.Deserialize<ProductResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    productResponses.Add(productResponse);
+                }
+            }
+
+            return Ok(productResponses);
+        }
         private async Task<string> DecompressResponse(HttpResponseMessage response)
         {
             using var responseStream = await response.Content.ReadAsStreamAsync();
