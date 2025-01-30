@@ -1,12 +1,12 @@
-﻿using System.IO.Compression;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using keepaAPI.Structs;
+﻿using keepaAPI.DBContext;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
+using System.IO.Compression;
+using System.Text;
+using System.Text.Json;
 
 namespace KeepaApi.Controllers
 {
@@ -17,8 +17,8 @@ namespace KeepaApi.Controllers
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy;
-
-        public KeepaApiController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        private readonly KeepaDbContext _dbContext;
+        public KeepaApiController(IHttpClientFactory httpClientFactory, IConfiguration configuration, KeepaDbContext dbContext)
         {
             _httpClient = httpClientFactory.CreateClient();
             _configuration = configuration;
@@ -27,6 +27,7 @@ namespace KeepaApi.Controllers
             _retryPolicy = HttpPolicyExtensions
                 .HandleTransientHttpError()
                 .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+            _dbContext = dbContext;
         }
 
         [HttpPost("send-request")]
@@ -79,36 +80,72 @@ namespace KeepaApi.Controllers
         }
 
 
-      
-
 
         [HttpGet("products")]
         public async Task<IActionResult> GetProducts([FromQuery] string codes)
         {
-            var codeList = codes.Split(',');
-            var tasks = new List<Task<HttpResponseMessage>>();
+            string apiKey = _configuration["Keepa:ApiKey"];
+            if (string.IsNullOrEmpty(apiKey))
+                return StatusCode(500, "API key is missing.");
 
-            foreach (var code in codeList)
+            // Check if the product is already in the database
+            var existingProductResponse = await _dbContext.ProductResponses
+                .Include(pr => pr.Products)
+                .FirstOrDefaultAsync(pr => pr.Products.Any(p => p.Asin == codes));
+
+            if (existingProductResponse != null)
             {
-                var url = $"https://api.keepa.com/product?key=k2hvuj5pni54jdq9t1qcchq9hq67gfv944qfu6mo17ltel0egs2siub39nhga0ot&domain=1&code={code}&history=0&days=1&offers=20";
-                tasks.Add(_httpClient.GetAsync(url));
+                return Ok(existingProductResponse);
             }
 
-            var responses = await Task.WhenAll(tasks);
-            var productResponses = new List<ProductResponse>();
+            var url = $"https://api.keepa.com/product?key={apiKey}&domain=1&code={codes}&history=0&days=1&offers=20";
+            var response = await _httpClient.GetAsync(url);
 
-            foreach (var response in responses)
+            if (!response.IsSuccessStatusCode)
             {
-                if (response.IsSuccessStatusCode)
+                return StatusCode((int)response.StatusCode, $"Error: {response.ReasonPhrase}");
+            }
+
+            var contentType = response.Content.Headers.ContentType?.MediaType;
+            if (contentType != "application/json")
+            {
+                var contentFallback = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Unexpected Content Type: {contentType}");
+                Console.WriteLine($"Response: {contentFallback}");
+                return StatusCode((int)response.StatusCode, "Invalid response format received from Keepa.");
+            }
+
+            string content;
+            try
+            {
+                var contentStream = await response.Content.ReadAsStreamAsync();
+                using (var decompressedStream = new GZipStream(contentStream, CompressionMode.Decompress))
+                using (var reader = new StreamReader(decompressedStream))
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var productResponse = JsonSerializer.Deserialize<ProductResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    productResponses.Add(productResponse);
+                    content = await reader.ReadToEndAsync();
                 }
-            }
 
-            return Ok(productResponses);
+                var productResponse = JsonSerializer.Deserialize<ProductResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                if (productResponse?.Products == null)
+                {
+                    return StatusCode(500, "Expected 'products' property not found in the response.");
+                }
+
+                // Save the product response to the database
+                _dbContext.ProductResponses.Add(productResponse);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(productResponse);
+            }
+            catch (JsonException ex)
+            {
+                return StatusCode(500, $"JSON Parsing Error: {ex.Message}");
+            }
         }
+
+
+
+
         private async Task<string> DecompressResponse(HttpResponseMessage response)
         {
             using var responseStream = await response.Content.ReadAsStreamAsync();
