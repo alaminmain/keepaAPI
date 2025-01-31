@@ -1,0 +1,534 @@
+{
+  "timestamp": 1738158529476,
+  "tokensLeft": 1153,
+  "refillIn": 49602,
+  "refillRate": 20,
+  "tokenFlowReduction": 0.0,
+  "tokensConsumed": 47,
+  "processingTimeInMs": 8414,
+  "products": [
+    {
+      "csv": null,
+      "categories": [
+        11057071
+      ],
+      "imagesCSV": "414RQHYAy+L.jpg,515BGDT5XcL.jpg,41WGpldglPL.jpg,51+XJMlhlKL.jpg",
+      "manufacturer": "Chloe",
+      "title": "Chloe by Chloe for Women Eau de Parfum Spray, 1 Ounce",
+      "lastUpdate": 7405272,
+      "lastPriceChange": 7405028,
+      "rootCategory": 3760911,
+      "productType": 0,
+      "parentAsin": null,
+      "variationCSV": null,
+      "asin": "B008N7TETU",
+      "domainId": 1,
+      "type": "PERSONAL_FRAGRANCE",
+      "hasReviews": true,
+      "trackingSince": 2928462,
+      "brand": "Chloe",
+      "productGroup": "Beauty",
+      "partNumber": "10023770",
+      "model": "10023770",
+      "color": "Eau De Parfum Spray",
+      "size": "1 Fl Oz (Pack of 1)",
+      "edition": null,
+      "format": null,
+      "packageHeight": 61,
+      "packageLength": 121,
+      "packageWidth": 95,
+      "packageWeight": 181,
+      "packageQuantity": 1,
+      "isAdultProduct": false,
+      "isEligibleForTradeIn": false,
+      "isEligibleForSuperSaverShipping": true,
+      "offers": [
+        {
+          "lastSeen": 7405272,
+          "sellerId": "ATVPDKIKX0DER",
+          "offerCSV": [
+            7403780,
+            5047,
+            0,
+            7404300,
+            4996,
+            0,
+            7404840,
+            4934,
+            0,
+            7405028,
+            4932,
+            0
+          ],
+          "condition": 1,
+          "conditionComment": null,
+          "isPrime": true,
+          "isMAP": false,
+          "isShippable": true,
+          "isAddonItem": false,
+          "isPreorder": false,
+          "isWarehouseDeal": false,
+          "isScam": false,
+          "isAmazon": true,
+          "isPrimeExcl": false,
+          "offerId": 55,
+          "isFBA": true,
+          "shipsFromChina": false,
+          "minOrderQty": 1,
+          "couponHistory": [
+            6851354,
+            0
+          ]
+        },
+        {
+          "lastSeen": 7405272,
+          "sellerId": "A1MSV55BK6IXPJ",
+          "offerCSV": [
+            7391164,
+            4930,
+            0,
+            7404302,
+            4855,
+            0
+          ],
+          "condition": 1,
+          "conditionComment": null,
+          "isPrime": false,
+          "isMAP": false,
+          "isShippable": true,
+          "isAddonItem": false,
+          "isPreorder": false,
+          "isWarehouseDeal": false,
+          "isScam": false,
+          "isAmazon": false,
+          "isPrimeExcl": false,
+          "offerId": 92,
+          "isFBA": false,
+          "shipsFromChina": false,
+          "minOrderQty": 1,
+          "couponHistory": [
+            7106444,
+            0
+          ]
+        },
+        {
+          "lastSeen": 7405272,
+          "sellerId": "A3VW57U14CLZYV",
+          "offerCSV": [
+            7403530,
+            4981,
+            0,
+            7404302,
+            4991,
+            0,
+            7405028,
+            4929,
+            0
+          ],
+          "condition": 1,
+          "conditionComment": null,
+          "isPrime": false,
+          "isMAP": false,
+          "isShippable": true,
+          "isAddonItem": false,
+          "isPreorder": false,
+          "isWarehouseDeal": false,
+          "isScam": false,
+          "isAmazon": false,
+          "isPrimeExcl": false,
+          "offerId": 38,
+          "isFBA": false,
+          "shipsFromChina": false,
+          "minOrderQty": 1,
+          "couponHistory": [
+            7136708,
+            0
+          ]
+        },
+        {
+          "lastSeen": 7405272,
+          "sellerId": "AE6QYEZ03BOAB",
+          "offerCSV": [
+            7390452,
+            4935,
+            0
+          ],
+          "condition": 1,
+          "conditionComment": null,
+          "isPrime": false,
+          "isMAP": false,
+          "isShippable": true,
+          "isAddonItem": false,
+          "isPreorder": false,
+          "isWarehouseDeal": false,
+          "isScam": false,
+          "isAmazon": false,
+          "isPrimeExcl": false,
+          "offerId": 103,
+          "isFBA": false,
+          "shipsFromChina": false,
+          "minOrderQty": 1,
+          "couponHistory": [
+            7380272,
+            0
+          ]
+        },
+        {
+          "lastSeen": 7405272,
+          "sellerId": "A2OVHENG73GA0X",
+          "offerCSV": [
+            7403530,
+            4977,
+            0,
+            7405188,
+            6777,
+            0,
+            7405272,
+            4977,
+            0
+          ],
+          "condition": 1,
+          "conditionComment": null,
+          "isPrime": false,
+          "isMAP": false,
+          "isShippable": true,
+          "isAddonItem": false,
+          "isPreorder": false,
+          "isWarehouseDeal": false,
+          "isScam": false,
+          "isAmazon": false,
+          "isPrimeExcl": false,
+          "offerId": 82,
+          "isFBA": false,
+          "shipsFromChina": false,
+          "minOrderQty": 1,
+          "couponHistory": [
+            7161418,
+            0
+          ]
+        },
+        {
+          "lastSeen": 7405272,
+          "sellerId": "AUY0H9C0XP8MA",
+          "offerCSV": [
+            7267372,
+            5000,
+            0
+          ],
+          "condition": 1,
+          "conditionComment": null,
+          "isPrime": false,
+          "isMAP": false,
+          "isShippable": true,
+          "isAddonItem": false,
+          "isPreorder": false,
+          "isWarehouseDeal": false,
+          "isScam": false,
+          "isAmazon": false,
+          "isPrimeExcl": false,
+          "offerId": 100,
+          "isFBA": false,
+          "shipsFromChina": false,
+          "minOrderQty": 1,
+          "couponHistory": [
+            7244914,
+            0
+          ]
+        },
+        {
+          "lastSeen": 7405272,
+          "sellerId": "A3LELEPUFPRXC",
+          "offerCSV": [
+            7397100,
+            5281,
+            0
+          ],
+          "condition": 1,
+          "conditionComment": null,
+          "isPrime": false,
+          "isMAP": false,
+          "isShippable": true,
+          "isAddonItem": false,
+          "isPreorder": false,
+          "isWarehouseDeal": false,
+          "isScam": false,
+          "isAmazon": false,
+          "isPrimeExcl": false,
+          "offerId": 63,
+          "isFBA": false,
+          "shipsFromChina": false,
+          "minOrderQty": 1,
+          "couponHistory": [
+            7161418,
+            0
+          ]
+        },
+        {
+          "lastSeen": 7405272,
+          "sellerId": "A1OVKRUZFQVFU",
+          "offerCSV": [
+            7397100,
+            5281,
+            0
+          ],
+          "condition": 1,
+          "conditionComment": null,
+          "isPrime": false,
+          "isMAP": false,
+          "isShippable": true,
+          "isAddonItem": false,
+          "isPreorder": false,
+          "isWarehouseDeal": false,
+          "isScam": false,
+          "isAmazon": false,
+          "isPrimeExcl": false,
+          "offerId": 78,
+          "isFBA": false,
+          "shipsFromChina": false,
+          "minOrderQty": 1,
+          "couponHistory": [
+            7161418,
+            0
+          ]
+        }
+      ],
+      "buyBoxSellerIdHistory": null,
+      "isRedirectASIN": false,
+      "isSNS": true,
+      "author": null,
+      "binding": "Health and Beauty",
+      "numberOfItems": 1,
+      "numberOfPages": -1,
+      "publicationDate": -1,
+      "releaseDate": -1,
+      "languages": [
+        [
+          "Turkish"
+        ]
+      ],
+      "lastRatingUpdate": 7405272,
+      "ebayListingIds": null,
+      "lastEbayUpdate": -1,
+      "eanList": [
+        "0688575201901"
+      ],
+      "upcList": [
+        "688575201901"
+      ],
+      "liveOffersOrder": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "frequentlyBoughtTogether": [
+        "B00RK6HWZI",
+        "B0CD51G6V9"
+      ],
+      "features": [
+        "An oriental floral fragrance for modern women",
+        "Classy, crisp, elegant, feminine & voluptuous",
+        "Perfect for all occasions"
+      ],
+      "description": "A feminine, sophisticated and chic eau de parfum. Chloé's signature scent captures the spirited individuality of women. A sublime powdery rose, the fragrance is fresh and feminine with an utterly innate sense of chic.",
+      "promotions": [
+        {
+          "type": "SNS",
+          "eligibilityRequirementDescription": null,
+          "benefitDescription": null,
+          "promotionId": null,
+          "amount": 4932,
+          "discountPercent": 0
+        }
+      ],
+      "newPriceIsMAP": false,
+      "coupon": [
+        0,
+        -5
+      ],
+      "availabilityAmazon": 0,
+      "listedSince": 173598,
+      "fbaFees": {
+        "pickAndPackFee": 471
+      },
+      "variations": null,
+      "itemHeight": 72,
+      "itemLength": 108,
+      "itemWidth": 94,
+      "itemWeight": 40,
+      "salesRankReference": 3760911,
+      "salesRanks": null,
+      "salesRankReferenceHistory": null,
+      "launchpad": false,
+      "isB2B": false,
+      "lastSoldUpdate": 7405272,
+      "monthlySold": 50,
+      "buyBoxEligibleOfferCounts": [
+        1,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "competitivePriceThreshold": 10500,
+      "hazardousMaterials": [
+        {
+          "aspect": "proper_shipping_name",
+          "value": "PERFUMERY PRODUCTS"
+        },
+        {
+          "aspect": "united_nations_regulatory_id",
+          "value": "UN1266"
+        },
+        {
+          "aspect": "regulatory_packing_group",
+          "value": "II"
+        },
+        {
+          "aspect": "exception",
+          "value": "AE_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "AU_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "BE_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "BR_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "CA_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "CN_GroundOnly"
+        },
+        {
+          "aspect": "exception",
+          "value": "DE_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "EG_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "ES_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "FR_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "GB_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "IE_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "IN_GroundOnly"
+        },
+        {
+          "aspect": "exception",
+          "value": "IT_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "JP_GroundOnly"
+        },
+        {
+          "aspect": "exception",
+          "value": "MX_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "NL_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "PL_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "SA_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "SE_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "SG_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "TR_LimitedQuantity"
+        },
+        {
+          "aspect": "exception",
+          "value": "US_ORMD"
+        },
+        {
+          "aspect": "exception",
+          "value": "ZA_LimitedQuantity"
+        },
+        {
+          "aspect": "transportation_regulatory_class",
+          "value": "3"
+        }
+      ],
+      "isHeatSensitive": false,
+      "urlSlug": "Chloe-New-Eau-Parfum-Spray",
+      "ingredients": "Not available",
+      "unitCount": {
+        "unitValue": 1.0,
+        "unitType": "Fl Oz"
+      },
+      "itemForm": "Spray",
+      "itemTypeKeyword": "eau-de-parfums",
+      "safetyWarning": "Please reffer the manufacturer's warnings",
+      "targetAudienceKeyword": "women",
+      "style": "Modern",
+      "scent": "Eau De Parfum",
+      "stats": null,
+      "offersSuccessful": true,
+      "g": 18195,
+      "categoryTree": [
+        {
+          "catId": 3760911,
+          "name": "Beauty & Personal Care"
+        },
+        {
+          "catId": 11056591,
+          "name": "Fragrance"
+        },
+        {
+          "catId": 11056931,
+          "name": "Women's"
+        },
+        {
+          "catId": 11057071,
+          "name": "Eau de Parfum"
+        }
+      ],
+      "referralFeePercent": 15,
+      "referralFeePercentage": 14.99
+    }
+
+  ]
+}
