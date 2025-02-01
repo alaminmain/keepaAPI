@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using keepaAPI.DBContext;
 
@@ -10,9 +11,11 @@ using keepaAPI.DBContext;
 namespace keepaAPI.Migrations
 {
     [DbContext(typeof(KeepaDbContext))]
-    partial class KeepaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250201113648_InitialDB")]
+    partial class InitialDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

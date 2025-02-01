@@ -124,11 +124,11 @@ public class Product
     [JsonPropertyName("releaseDate")]
     public int ReleaseDate { get; set; }
 
-    [JsonPropertyName("languages")]
-    public List<Language> Languages { get; set; }
+    //[JsonPropertyName("languages")]
+    //public List<Language> Languages { get; set; }
 
-    [JsonPropertyName("contributors")]
-    public List<Contributor> Contributors { get; set; }
+    //[JsonPropertyName("contributors")]
+    //public List<Contributor> Contributors { get; set; }
 
     [JsonPropertyName("features")]
     public List<Feature> Features { get; set; }
@@ -394,14 +394,14 @@ public class Offer
     [JsonPropertyName("isPrimeExcl")]
     public bool IsPrimeExcl { get; set; }
 
-    [JsonPropertyName("stockCSV")]
-    public List<StockCsv> StockCSV { get; set; }
+    //[JsonPropertyName("stockCSV")]
+    //public List<StockCsv> StockCSV { get; set; }
 
-    [JsonPropertyName("coupon")]
-    public int Coupon { get; set; }
+    //[JsonPropertyName("coupon")]
+    //public int Coupon { get; set; }
 
-    [JsonPropertyName("couponHistory")]
-    public List<CouponHistory> CouponHistory { get; set; }
+    //[JsonPropertyName("couponHistory")]
+    //public List<CouponHistory> CouponHistory { get; set; }
 }
 public class Upc
 {

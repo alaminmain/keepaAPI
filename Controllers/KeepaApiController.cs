@@ -1,4 +1,6 @@
 ﻿
+using keepaAPI.DBContext;
+using keepaAPI.Structs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Polly;
@@ -89,13 +91,15 @@ namespace KeepaApi.Controllers
                 return StatusCode(500, "API key is missing.");
 
             // Check if the product is already in the database
-            var existingProductResponse = await _dbContext.ProductResponses
-                .Include(pr => pr.Products)
-                .FirstOrDefaultAsync(pr => pr.Products.Any(p => p.Asin == codes));
+            var existingProduct = await _dbContext.Products
+                .Include(p => p.UpcList)
+                .Include(p => p.EanList)
+                .Include(p => p.Variations)
+                .FirstOrDefaultAsync(p => p.Asin == codes);
 
-            if (existingProductResponse != null)
+            if (existingProduct != null)
             {
-                return Ok(existingProductResponse);
+                return Ok(existingProduct);
             }
 
             var url = $"https://api.keepa.com/product?key={apiKey}&domain=1&code={codes}&history=0&days=1&offers=20";
@@ -125,17 +129,30 @@ namespace KeepaApi.Controllers
                     content = await reader.ReadToEndAsync();
                 }
 
-                var productResponse = JsonSerializer.Deserialize<ProductResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                if (productResponse?.Products == null)
+                using (JsonDocument document = JsonDocument.Parse(content))
                 {
-                    return StatusCode(500, "Expected 'products' property not found in the response.");
+                    var root = document.RootElement;
+                    if (root.TryGetProperty("products", out JsonElement productsElement))
+                    {
+                        var productsJson = productsElement.GetRawText();
+                        var products = JsonSerializer.Deserialize<List<ProductForBrandTrader>>(productsJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                        if (products == null)
+                        {
+                            return StatusCode(500, "Expected 'products' property not found in the response.");
+                        }
+
+                        // Save the products to the database
+                        _dbContext.Products.AddRange(products);
+                        await _dbContext.SaveChangesAsync();
+
+                        return Ok(products);
+                    }
+                    else
+                    {
+                        return StatusCode(500, "Expected 'products' property not found in the response.");
+                    }
                 }
-
-                // Save the product response to the database
-                _dbContext.ProductResponses.Add(productResponse);
-                await _dbContext.SaveChangesAsync();
-
-                return Ok(productResponse);
             }
             catch (JsonException ex)
             {
