@@ -138,8 +138,8 @@ namespace keepaAPI.Structs
         [JsonPropertyName("lastRatingUpdate")]
         public int LastRatingUpdate { get; set; }
 
-        [JsonPropertyName("ebayListingIds")]
-        public string EbayListingIds { get; set; }
+        //[JsonPropertyName("ebayListingIds")]
+        //public string EbayListingIds { get; set; }
 
         [JsonPropertyName("lastEbayUpdate")]
         public int LastEbayUpdate { get; set; }
