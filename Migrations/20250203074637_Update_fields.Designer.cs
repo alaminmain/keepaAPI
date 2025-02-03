@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using keepaAPI.DBContext;
 
@@ -10,9 +11,11 @@ using keepaAPI.DBContext;
 namespace keepaAPI.Migrations
 {
     [DbContext(typeof(KeepaDbContext))]
-    partial class KeepaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250203074637_Update_fields")]
+    partial class Update_fields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,6 +120,7 @@ namespace keepaAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -135,60 +139,74 @@ namespace keepaAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Asin")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Author")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("AvailabilityAmazon")
                         .HasColumnType("int");
 
                     b.Property<string>("Binding")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Brand")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("BuyBoxPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CategoryTree")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Color")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CompetitivePriceThreshold")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte?>("DomainId")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("Edition")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Features")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Format")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FrequentlyBoughtTogether")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("G")
                         .HasColumnType("int");
 
                     b.Property<string>("HazardousMaterials")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagesCSV")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ingredients")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsAdultProduct")
@@ -213,6 +231,7 @@ namespace keepaAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ItemForm")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ItemHeight")
@@ -222,6 +241,7 @@ namespace keepaAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ItemTypeKeyword")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ItemWeight")
@@ -246,9 +266,11 @@ namespace keepaAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Manufacturer")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MonthlySold")
@@ -282,12 +304,15 @@ namespace keepaAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ParentAsin")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PartNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductGroup")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PublicationDate")
@@ -306,6 +331,7 @@ namespace keepaAPI.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("SafetyWarning")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SalesRankReference")
@@ -315,18 +341,23 @@ namespace keepaAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Scent")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Size")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Style")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TargetAudienceKeyword")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TrackingSince")
@@ -336,9 +367,11 @@ namespace keepaAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UrlSlug")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VariationCSV")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -362,6 +395,7 @@ namespace keepaAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

@@ -1,8 +1,12 @@
 ﻿
 using keepaAPI.DBContext;
+using keepaAPI.Helper;
 using keepaAPI.Structs;
+using keepaAPI.Structs.ProductRawClasses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
@@ -32,56 +36,54 @@ namespace KeepaApi.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpPost("send-request")]
-        public async Task<IActionResult> SendRequest([FromBody] KeepaRequest request)
-        {
-            if (request == null || string.IsNullOrWhiteSpace(request.Path))
-                return BadRequest("Invalid request payload.");
+        //[HttpPost("send-request")]
+        //public async Task<IActionResult> SendRequest([FromBody] KeepaRequest request)
+        //{
+        //    if (request == null || string.IsNullOrWhiteSpace(request.Path))
+        //        return BadRequest("Invalid request payload.");
 
-            string apiKey = _configuration["KeepaApiKey"]; // Load API Key from config
-            if (string.IsNullOrEmpty(apiKey))
-                return StatusCode(500, "API key is missing.");
+        //    string apiKey = _configuration["KeepaApiKey"]; // Load API Key from config
+        //    if (string.IsNullOrEmpty(apiKey))
+        //        return StatusCode(500, "API key is missing.");
 
-            string queryParams = string.Join("&", request.Parameters.Select(p => $"{Uri.EscapeDataString(p.Key)}={Uri.EscapeDataString(p.Value)}"));
-            string url = $"https://api.keepa.com/{request.Path}?key={apiKey}&{queryParams}";
+        //    string queryParams = string.Join("&", request.Parameters.Select(p => $"{Uri.EscapeDataString(p.Key)}={Uri.EscapeDataString(p.Value)}"));
+        //    string url = $"https://api.keepa.com/{request.Path}?key={apiKey}&{queryParams}";
 
-            try
-            {
-                HttpRequestMessage httpRequest = new HttpRequestMessage
-                {
-                    Method = request.PostData != null ? HttpMethod.Post : HttpMethod.Get,
-                    RequestUri = new Uri(url),
-                    Headers =
-                    {
-                        { "User-Agent", "Keepa-DotNet-Client" },
-                        { "Accept-Encoding", "gzip" }
-                    }
-                };
+        //    try
+        //    {
+        //        HttpRequestMessage httpRequest = new HttpRequestMessage
+        //        {
+        //            Method = request.PostData != null ? HttpMethod.Post : HttpMethod.Get,
+        //            RequestUri = new Uri(url),
+        //            Headers =
+        //            {
+        //                { "User-Agent", "Keepa-DotNet-Client" },
+        //                { "Accept-Encoding", "gzip" }
+        //            }
+        //        };
 
-                if (request.PostData != null)
-                {
-                    httpRequest.Content = new StringContent(JsonSerializer.Serialize(request.PostData), Encoding.UTF8, "application/json");
-                }
+        //        if (request.PostData != null)
+        //        {
+        //            httpRequest.Content = new StringContent(JsonSerializer.Serialize(request.PostData), Encoding.UTF8, "application/json");
+        //        }
 
-                HttpResponseMessage response = await _retryPolicy.ExecuteAsync(() => _httpClient.SendAsync(httpRequest));
+        //        HttpResponseMessage response = await _retryPolicy.ExecuteAsync(() => _httpClient.SendAsync(httpRequest));
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    return StatusCode((int)response.StatusCode, $"Error: {response.ReasonPhrase}");
-                }
+        //        if (!response.IsSuccessStatusCode)
+        //        {
+        //            return StatusCode((int)response.StatusCode, $"Error: {response.ReasonPhrase}");
+        //        }
 
-                var responseData = await DecompressResponse(response);
-                var keepaResponse = JsonSerializer.Deserialize<KeepaResponse>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        //        var responseData = await DecompressResponse(response);
+        //        var keepaResponse = JsonSerializer.Deserialize<KeepaResponse>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                return Ok(keepaResponse);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-
+        //        return Ok(keepaResponse);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex.Message}");
+        //    }
+        //}
 
         [HttpGet("products")]
         public async Task<IActionResult> GetProducts([FromQuery] string codes)
@@ -102,7 +104,7 @@ namespace KeepaApi.Controllers
                 return Ok(existingProduct);
             }
 
-            var url = $"https://api.keepa.com/product?key={apiKey}&domain=1&code={codes}&history=0&days=1&offers=20";
+            var url = $"https://api.keepa.com/product?key={apiKey}&domain=1&code={codes}&offers=20&history=1&days=1";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
@@ -122,6 +124,7 @@ namespace KeepaApi.Controllers
             string content;
             try
             {
+                List<ProductForBrandTrader> products = new List<ProductForBrandTrader>();
                 var contentStream = await response.Content.ReadAsStreamAsync();
                 using (var decompressedStream = new GZipStream(contentStream, CompressionMode.Decompress))
                 using (var reader = new StreamReader(decompressedStream))
@@ -135,18 +138,28 @@ namespace KeepaApi.Controllers
                     if (root.TryGetProperty("products", out JsonElement productsElement))
                     {
                         var productsJson = productsElement.GetRawText();
-                        var products = JsonSerializer.Deserialize<List<ProductForBrandTrader>>(productsJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        //var products = JsonSerializer.Deserialize<List<ProductForBrandTrader>>(productsJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        var myDeserializedClass = System.Text.Json.JsonSerializer.Deserialize<KeepaResponseObj>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ;
 
-                        if (products == null)
+                        if (myDeserializedClass == null)
                         {
                             return StatusCode(500, "Expected 'products' property not found in the response.");
                         }
 
+                        foreach (var product in myDeserializedClass.Products)
+                        {
+                            ProductForBrandTrader productForBrandTrader = new ProductForBrandTrader();
+
+
+                            productForBrandTrader=ProductMapper.MapToProductForBrandTrader(product);
+                            products.Add(productForBrandTrader);
+
+                        }
                         // Save the products to the database
                         _dbContext.Products.AddRange(products);
                         await _dbContext.SaveChangesAsync();
 
-                        return Ok(products);
+                        return Ok();
                     }
                     else
                     {
@@ -154,14 +167,11 @@ namespace KeepaApi.Controllers
                     }
                 }
             }
-            catch (JsonException ex)
+            catch (System.Text.Json.JsonException ex)
             {
                 return StatusCode(500, $"JSON Parsing Error: {ex.Message}");
             }
         }
-
-
-
 
         private async Task<string> DecompressResponse(HttpResponseMessage response)
         {
