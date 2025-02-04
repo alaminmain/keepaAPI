@@ -6,7 +6,9 @@ namespace keepaAPI.Helper
     {
         public static ProductForBrandTrader MapToProductForBrandTrader(Structs.ProductRawClasses.Product product)
         {
-            var BuyBoxPrice = product.Offers?.MaxBy(x => x.LastSeen).OfferCSV.ElementAtOrDefault(1);
+            var BuyBoxPrice =Convert.ToDecimal(product.Stats.BuyBoxPrice)/100;
+            var Rating = Convert.ToDecimal(product.Stats.Current[16])/10;
+            var Ranking = product.Stats.Current[3];
             
             return new ProductForBrandTrader
             {
@@ -88,7 +90,9 @@ namespace keepaAPI.Helper
                 G = product.G ?? 0,
                 CategoryTree = product.CategoryTree != null ? string.Join(", ", product.CategoryTree.Select(c => c.Name)) : null,
                 ReferralFeePercent = product.ReferralFeePercent ?? 0,
-                ReferralFeePercentage = product.ReferralFeePercentage ?? 0
+                ReferralFeePercentage = product.ReferralFeePercentage ?? 0,
+                Rating = Rating,
+                SalesRankOnMainCategory = Ranking
             };
         }
     }

@@ -79,6 +79,8 @@ namespace keepaAPI.Structs
         public string? CategoryTree { get; set; }
         public int? ReferralFeePercent { get; set; }
         public double? ReferralFeePercentage { get; set; }
+        public int? SalesRankOnMainCategory { get; set; }
+        public decimal? Rating { get; set; }
     }
 
     public class Upc

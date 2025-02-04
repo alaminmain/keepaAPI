@@ -104,7 +104,7 @@ namespace KeepaApi.Controllers
                 return Ok(existingProduct);
             }
 
-            var url = $"https://api.keepa.com/product?key={apiKey}&domain=1&code={codes}&offers=20&history=1&days=1";
+            var url = $"https://api.keepa.com/product?key={apiKey}&domain=1&code={codes}&offers=20&history=0&days=1&stats=1";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
@@ -132,9 +132,15 @@ namespace KeepaApi.Controllers
                     content = await reader.ReadToEndAsync();
                 }
 
+               
+
                 using (JsonDocument document = JsonDocument.Parse(content))
                 {
                     var root = document.RootElement;
+
+                   
+                    
+
                     if (root.TryGetProperty("products", out JsonElement productsElement))
                     {
                         var productsJson = productsElement.GetRawText();

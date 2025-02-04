@@ -368,7 +368,7 @@ public class Product
     public string Scent { get; set; }
 
     [JsonProperty("stats", NullValueHandling = NullValueHandling.Ignore)]
-    public object Stats { get; set; }
+    public Stats Stats { get; set; }
 
     [JsonProperty("offersSuccessful", NullValueHandling = NullValueHandling.Ignore)]
     public bool? OffersSuccessful { get; set; }
@@ -465,3 +465,200 @@ public class Variation
 }
 
 
+public class Stats
+{
+    [JsonProperty("current", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> Current { get; set; }
+
+    [JsonProperty("avg", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> Avg { get; set; }
+
+    [JsonProperty("avg30", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> Avg30 { get; set; }
+
+    [JsonProperty("avg90", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> Avg90 { get; set; }
+
+    [JsonProperty("avg180", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> Avg180 { get; set; }
+
+    [JsonProperty("avg365", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> Avg365 { get; set; }
+
+    [JsonProperty("atIntervalStart", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> AtIntervalStart { get; set; }
+
+    [JsonProperty("min", NullValueHandling = NullValueHandling.Ignore)]
+    public List<List<int?>> Min { get; set; }
+
+    [JsonProperty("max", NullValueHandling = NullValueHandling.Ignore)]
+    public List<List<int?>> Max { get; set; }
+
+    [JsonProperty("minInInterval", NullValueHandling = NullValueHandling.Ignore)]
+    public List<List<int?>> MinInInterval { get; set; }
+
+    [JsonProperty("maxInInterval", NullValueHandling = NullValueHandling.Ignore)]
+    public List<List<int?>> MaxInInterval { get; set; }
+
+    [JsonProperty("isLowest", NullValueHandling = NullValueHandling.Ignore)]
+    public List<bool?> IsLowest { get; set; }
+
+    [JsonProperty("isLowest90", NullValueHandling = NullValueHandling.Ignore)]
+    public List<bool?> IsLowest90 { get; set; }
+
+    [JsonProperty("outOfStockPercentageInInterval", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> OutOfStockPercentageInInterval { get; set; }
+
+    [JsonProperty("outOfStockPercentage365", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> OutOfStockPercentage365 { get; set; }
+
+    [JsonProperty("outOfStockPercentage180", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> OutOfStockPercentage180 { get; set; }
+
+    [JsonProperty("outOfStockPercentage90", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> OutOfStockPercentage90 { get; set; }
+
+    [JsonProperty("outOfStockPercentage30", NullValueHandling = NullValueHandling.Ignore)]
+    public List<int?> OutOfStockPercentage30 { get; set; }
+
+    [JsonProperty("outOfStockCountAmazon30", NullValueHandling = NullValueHandling.Ignore)]
+    public int? OutOfStockCountAmazon30 { get; set; }
+
+    [JsonProperty("outOfStockCountAmazon90", NullValueHandling = NullValueHandling.Ignore)]
+    public int? OutOfStockCountAmazon90 { get; set; }
+
+    [JsonProperty("deltaPercent90_monthlySold", NullValueHandling = NullValueHandling.Ignore)]
+    public int? DeltaPercent90MonthlySold { get; set; }
+
+    [JsonProperty("retrievedOfferCount", NullValueHandling = NullValueHandling.Ignore)]
+    public int? RetrievedOfferCount { get; set; }
+
+    [JsonProperty("totalOfferCount", NullValueHandling = NullValueHandling.Ignore)]
+    public int? TotalOfferCount { get; set; }
+
+    [JsonProperty("tradeInPrice", NullValueHandling = NullValueHandling.Ignore)]
+    public int? TradeInPrice { get; set; }
+
+    [JsonProperty("lastOffersUpdate", NullValueHandling = NullValueHandling.Ignore)]
+    public int? LastOffersUpdate { get; set; }
+
+    [JsonProperty("isAddonItem", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? IsAddonItem { get; set; }
+
+    [JsonProperty("lightningDealInfo", NullValueHandling = NullValueHandling.Ignore)]
+    public object LightningDealInfo { get; set; }
+
+    [JsonProperty("sellerIdsLowestFBA", NullValueHandling = NullValueHandling.Ignore)]
+    public object SellerIdsLowestFBA { get; set; }
+
+    [JsonProperty("sellerIdsLowestFBM", NullValueHandling = NullValueHandling.Ignore)]
+    public object SellerIdsLowestFBM { get; set; }
+
+    [JsonProperty("offerCountFBA", NullValueHandling = NullValueHandling.Ignore)]
+    public int? OfferCountFBA { get; set; }
+
+    [JsonProperty("offerCountFBM", NullValueHandling = NullValueHandling.Ignore)]
+    public int? OfferCountFBM { get; set; }
+
+    [JsonProperty("salesRankDrops30", NullValueHandling = NullValueHandling.Ignore)]
+    public int? SalesRankDrops30 { get; set; }
+
+    [JsonProperty("salesRankDrops90", NullValueHandling = NullValueHandling.Ignore)]
+    public int? SalesRankDrops90 { get; set; }
+
+    [JsonProperty("salesRankDrops180", NullValueHandling = NullValueHandling.Ignore)]
+    public int? SalesRankDrops180 { get; set; }
+
+    [JsonProperty("salesRankDrops365", NullValueHandling = NullValueHandling.Ignore)]
+    public int? SalesRankDrops365 { get; set; }
+
+    [JsonProperty("buyBoxPrice", NullValueHandling = NullValueHandling.Ignore)]
+    public int? BuyBoxPrice { get; set; }
+
+    [JsonProperty("buyBoxShipping", NullValueHandling = NullValueHandling.Ignore)]
+    public int? BuyBoxShipping { get; set; }
+
+    [JsonProperty("buyBoxIsUnqualified", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsUnqualified { get; set; }
+
+    [JsonProperty("buyBoxIsShippable", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsShippable { get; set; }
+
+    [JsonProperty("buyBoxIsPreorder", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsPreorder { get; set; }
+
+    [JsonProperty("buyBoxIsFBA", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsFBA { get; set; }
+
+    [JsonProperty("buyBoxIsAmazon", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsAmazon { get; set; }
+
+    [JsonProperty("buyBoxIsMAP", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsMAP { get; set; }
+
+    [JsonProperty("buyBoxIsUsed", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsUsed { get; set; }
+
+    [JsonProperty("buyBoxIsBackorder", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsBackorder { get; set; }
+
+    [JsonProperty("buyBoxIsPrimeExclusive", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsPrimeExclusive { get; set; }
+
+    [JsonProperty("buyBoxIsFreeShippingEligible", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsFreeShippingEligible { get; set; }
+
+    [JsonProperty("buyBoxIsPrimePantry", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsPrimePantry { get; set; }
+
+    [JsonProperty("buyBoxIsPrimeEligible", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsPrimeEligible { get; set; }
+
+    [JsonProperty("buyBoxMinOrderQuantity", NullValueHandling = NullValueHandling.Ignore)]
+    public int? BuyBoxMinOrderQuantity { get; set; }
+
+    [JsonProperty("buyBoxMaxOrderQuantity", NullValueHandling = NullValueHandling.Ignore)]
+    public int? BuyBoxMaxOrderQuantity { get; set; }
+
+    [JsonProperty("buyBoxCondition", NullValueHandling = NullValueHandling.Ignore)]
+    public int? BuyBoxCondition { get; set; }
+
+    [JsonProperty("lastBuyBoxUpdate", NullValueHandling = NullValueHandling.Ignore)]
+    public int? LastBuyBoxUpdate { get; set; }
+
+    [JsonProperty("buyBoxAvailabilityMessage", NullValueHandling = NullValueHandling.Ignore)]
+    public string BuyBoxAvailabilityMessage { get; set; }
+
+    [JsonProperty("buyBoxShippingCountry", NullValueHandling = NullValueHandling.Ignore)]
+    public string BuyBoxShippingCountry { get; set; }
+
+    [JsonProperty("buyBoxSellerId", NullValueHandling = NullValueHandling.Ignore)]
+    public string BuyBoxSellerId { get; set; }
+
+    [JsonProperty("buyBoxIsWarehouseDeal", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? BuyBoxIsWarehouseDeal { get; set; }
+
+    [JsonProperty("buyBoxStats", NullValueHandling = NullValueHandling.Ignore)]
+    public Dictionary<string, BuyBoxStats> BuyBoxStats { get; set; }
+}
+
+public class BuyBoxStats
+{
+    [JsonProperty("percentageWon", NullValueHandling = NullValueHandling.Ignore)]
+    public double? PercentageWon { get; set; }
+
+    [JsonProperty("avgPrice", NullValueHandling = NullValueHandling.Ignore)]
+    public int? AvgPrice { get; set; }
+
+    [JsonProperty("avgNewOfferCount", NullValueHandling = NullValueHandling.Ignore)]
+    public int? AvgNewOfferCount { get; set; }
+
+    [JsonProperty("avgUsedOfferCount", NullValueHandling = NullValueHandling.Ignore)]
+    public int? AvgUsedOfferCount { get; set; }
+
+    [JsonProperty("isFBA", NullValueHandling = NullValueHandling.Ignore)]
+    public bool? IsFBA { get; set; }
+
+    [JsonProperty("lastSeen", NullValueHandling = NullValueHandling.Ignore)]
+    public int? LastSeen { get; set; }
+}
