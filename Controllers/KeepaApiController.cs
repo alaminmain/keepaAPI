@@ -36,54 +36,54 @@ namespace KeepaApi.Controllers
             _dbContext = dbContext;
         }
 
-        //[HttpPost("send-request")]
-        //public async Task<IActionResult> SendRequest([FromBody] KeepaRequest request)
-        //{
-        //    if (request == null || string.IsNullOrWhiteSpace(request.Path))
-        //        return BadRequest("Invalid request payload.");
+        [HttpPost("send-request")]
+        public async Task<IActionResult> SendRequest([FromBody] KeepaRequest request)
+        {
+            if (request == null || string.IsNullOrWhiteSpace(request.Path))
+                return BadRequest("Invalid request payload.");
 
-        //    string apiKey = _configuration["KeepaApiKey"]; // Load API Key from config
-        //    if (string.IsNullOrEmpty(apiKey))
-        //        return StatusCode(500, "API key is missing.");
+            string apiKey = _configuration["Keepa:ApiKey"]; // Load API Key from config
+            if (string.IsNullOrEmpty(apiKey))
+                return StatusCode(500, "API key is missing.");
 
-        //    string queryParams = string.Join("&", request.Parameters.Select(p => $"{Uri.EscapeDataString(p.Key)}={Uri.EscapeDataString(p.Value)}"));
-        //    string url = $"https://api.keepa.com/{request.Path}?key={apiKey}&{queryParams}";
+            string queryParams = string.Join("&", request.Parameters.Select(p => $"{Uri.EscapeDataString(p.Key)}={Uri.EscapeDataString(p.Value)}"));
+            string url = $"https://api.keepa.com/{request.Path}?key={apiKey}&{queryParams}";
 
-        //    try
-        //    {
-        //        HttpRequestMessage httpRequest = new HttpRequestMessage
-        //        {
-        //            Method = request.PostData != null ? HttpMethod.Post : HttpMethod.Get,
-        //            RequestUri = new Uri(url),
-        //            Headers =
-        //            {
-        //                { "User-Agent", "Keepa-DotNet-Client" },
-        //                { "Accept-Encoding", "gzip" }
-        //            }
-        //        };
+            try
+            {
+                HttpRequestMessage httpRequest = new HttpRequestMessage
+                {
+                    Method = request.PostData != null ? HttpMethod.Post : HttpMethod.Get,
+                    RequestUri = new Uri(url),
+                    Headers =
+                    {
+                        { "User-Agent", "Keepa-DotNet-Client" },
+                        { "Accept-Encoding", "gzip" }
+                    }
+                };
 
-        //        if (request.PostData != null)
-        //        {
-        //            httpRequest.Content = new StringContent(JsonSerializer.Serialize(request.PostData), Encoding.UTF8, "application/json");
-        //        }
+                if (request.PostData != null)
+                {
+                    httpRequest.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(request.PostData), Encoding.UTF8, "application/json");
+                }
 
-        //        HttpResponseMessage response = await _retryPolicy.ExecuteAsync(() => _httpClient.SendAsync(httpRequest));
+                HttpResponseMessage response = await _retryPolicy.ExecuteAsync(() => _httpClient.SendAsync(httpRequest));
 
-        //        if (!response.IsSuccessStatusCode)
-        //        {
-        //            return StatusCode((int)response.StatusCode, $"Error: {response.ReasonPhrase}");
-        //        }
+                if (!response.IsSuccessStatusCode)
+                {
+                    return StatusCode((int)response.StatusCode, $"Error: {response.ReasonPhrase}");
+                }
 
-        //        var responseData = await DecompressResponse(response);
-        //        var keepaResponse = JsonSerializer.Deserialize<KeepaResponse>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                var responseData = await DecompressResponse(response);
+                var keepaResponse = System.Text.Json.JsonSerializer.Deserialize<Response>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-        //        return Ok(keepaResponse);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
-        //}
+                return Ok(keepaResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         [HttpGet("products")]
         public async Task<IActionResult> GetProducts([FromQuery] string codes)
@@ -206,9 +206,9 @@ namespace KeepaApi.Controllers
         public double TokenFlowReduction { get; set; }
         public int TokensConsumed { get; set; }
         public string Status { get; set; } = "PENDING";
-        public object? Products { get; set; }
-        public object? Categories { get; set; }
-        public object? Error { get; set; }
+        public List<keepaAPI.Structs.Product>? Products { get; set; }
+        public List<keepaAPI.Structs.Category>? Categories { get; set; }
+        public List<keepaAPI.Structs.RequestError>? Error { get; set; }
         public object? Additional { get; set; }
     }
 }
